@@ -1,0 +1,189 @@
+    department    | admissions | share_pct | emergency_pct 
+------------------+------------+-----------+---------------
+ General Medicine |       5589 |      25.7 |          43.7
+ Cardiology       |       5084 |      23.4 |          47.0
+ Orthopedics      |       3652 |      16.8 |          42.4
+ Neurology        |       3049 |      14.0 |          46.3
+ Oncology         |       2778 |      12.8 |          47.1
+ Pediatrics       |       1571 |       7.2 |          38.9
+(6 rows)
+
+ age_group | admissions | appointments | services | service_share_pct | admissions_per_patient 
+-----------+------------+--------------+----------+-------------------+------------------------
+ 60+       |       8925 |        11811 |    20736 |              29.7 |                   2.92
+ 31-45     |       3977 |        10408 |    14385 |              20.6 |                   1.87
+ 46-60     |       3866 |        10509 |    14375 |              20.6 |                   1.84
+ 18-30     |       3099 |         8631 |    11730 |              16.8 |                   1.85
+ 0-17      |       1856 |         6641 |     8497 |              12.2 |                   1.58
+(5 rows)
+
+    department    | avg_cost | median_cost | cost_per_bed_day | total_cost_musd 
+------------------+----------+-------------+------------------+-----------------
+ Oncology         |    51948 |       46548 |             7439 |          144.31
+ Cardiology       |    41362 |       36050 |             7210 |          210.29
+ Orthopedics      |    40810 |       38727 |             8597 |          149.04
+ Neurology        |    32775 |       30005 |             5369 |           99.93
+ General Medicine |    17262 |       15790 |             3765 |           96.48
+ Pediatrics       |    12004 |       10922 |             4991 |           18.86
+(6 rows)
+
+ stays | readmissions_sql | readmission_rate_pct | readmissions_python 
+-------+------------------+----------------------+---------------------
+ 20528 |             3331 |                 16.2 |                3331
+(1 row)
+
+ appointments | no_shows | noshow_rate_pct | cancel_rate_pct 
+--------------+----------+-----------------+-----------------
+        48000 |     6861 |            14.3 |             6.2
+(1 row)
+
+   month    | admissions | mom_change | moving_avg_3m 
+------------+------------+------------+---------------
+ 2024-01-01 |       1004 |            |          1004
+ 2024-02-01 |       1063 |         59 |          1034
+ 2024-03-01 |        815 |       -248 |           961
+ 2024-04-01 |        837 |         22 |           905
+ 2024-05-01 |        785 |        -52 |           812
+ 2024-06-01 |        740 |        -45 |           787
+ 2024-07-01 |        821 |         81 |           782
+ 2024-08-01 |        854 |         33 |           805
+ 2024-09-01 |        857 |          3 |           844
+ 2024-10-01 |        837 |        -20 |           849
+ 2024-11-01 |        772 |        -65 |           822
+ 2024-12-01 |       1087 |        315 |           899
+ 2025-01-01 |       1123 |         36 |           994
+ 2025-02-01 |       1044 |        -79 |          1085
+ 2025-03-01 |        910 |       -134 |          1026
+ 2025-04-01 |        865 |        -45 |           940
+ 2025-05-01 |        879 |         14 |           885
+ 2025-06-01 |        908 |         29 |           884
+ 2025-07-01 |        939 |         31 |           909
+ 2025-08-01 |        844 |        -95 |           897
+ 2025-09-01 |        895 |         51 |           893
+ 2025-10-01 |        902 |          7 |           880
+ 2025-11-01 |        886 |        -16 |           894
+ 2025-12-01 |       1056 |        170 |           948
+(24 rows)
+
+ season | admissions_per_month 
+--------+----------------------
+ Winter |                 1063
+ Autumn |                  858
+ Summer |                  851
+ Spring |                  849
+(4 rows)
+
+        hospital_name         | hospital_type | admissions | avg_los | readmission_pct | avg_recovery | avg_cost | readmission_rank | los_rank 
+------------------------------+---------------+------------+---------+-----------------+--------------+----------+------------------+----------
+ Westbrook Specialty Hospital | Specialty     |       5185 |    4.92 |            13.5 |         71.8 |    36542 |                1 |        2
+ Lakeside General Hospital    | General       |       3161 |    4.88 |            15.2 |         71.8 |    30828 |                2 |        1
+ Northgate Medical Center     | Teaching      |       5536 |    5.03 |            15.5 |         70.7 |    32893 |                3 |        3
+ Eastview Regional Hospital   | Regional      |       3188 |    5.31 |            16.1 |         69.4 |    31607 |                4 |        4
+ Riverside Community Hospital | Community     |       4653 |    6.06 |            20.8 |         65.0 |    32048 |                5 |        5
+(5 rows)
+
+    department    | avg_los | median_los | p90_los 
+------------------+---------+------------+---------
+ Oncology         |    6.98 |        6.3 |    12.1
+ Neurology        |    6.10 |        5.5 |    10.4
+ Cardiology       |    5.74 |        5.2 |     9.8
+ Orthopedics      |    4.75 |        4.3 |     8.1
+ General Medicine |    4.59 |        4.1 |     7.9
+ Pediatrics       |    2.40 |        2.2 |     4.1
+(6 rows)
+
+        hospital_name         |    department    | long_stays | share_of_long_stays 
+------------------------------+------------------+------------+---------------------
+ Riverside Community Hospital | Cardiology       |        183 |                11.0
+ Riverside Community Hospital | Oncology         |        129 |                 7.7
+ Westbrook Specialty Hospital | Oncology         |        128 |                 7.7
+ Riverside Community Hospital | Neurology        |        119 |                 7.1
+ Northgate Medical Center     | Oncology         |        108 |                 6.5
+ Northgate Medical Center     | Cardiology       |         95 |                 5.7
+ Riverside Community Hospital | General Medicine |         87 |                 5.2
+ Westbrook Specialty Hospital | Neurology        |         81 |                 4.8
+ Eastview Regional Hospital   | Oncology         |         75 |                 4.5
+ Eastview Regional Hospital   | Cardiology       |         73 |                 4.4
+(10 rows)
+
+    department    | surgery | therapy | medication | observation 
+------------------+---------+---------+------------+-------------
+ Oncology         |   78997 |   47470 |      40751 |       32311
+ Cardiology       |   64578 |   38574 |      32622 |       26486
+ Neurology        |   53525 |   33199 |      28306 |       23871
+ Orthopedics      |   52676 |   31339 |      25965 |       21234
+ General Medicine |   30146 |   19010 |      16599 |       14490
+ Pediatrics       |   21453 |   13071 |      11349 |        9441
+(6 rows)
+
+ age_group | visit_type | stays | readmission_pct 
+-----------+------------+-------+-----------------
+ 0-17      | Emergency  |   698 |             8.2
+ 0-17      | Routine    |  1158 |             8.0
+ 18-30     | Emergency  |  1232 |            13.3
+ 18-30     | Routine    |  1867 |            12.7
+ 31-45     | Emergency  |  1529 |            13.5
+ 31-45     | Routine    |  2448 |            12.8
+ 46-60     | Emergency  |  1555 |            13.8
+ 46-60     | Routine    |  2311 |            12.5
+ 60+       | Emergency  |  4697 |            21.6
+ 60+       | Routine    |  4228 |            22.1
+(10 rows)
+
+ risk_band | stays | actual_readmission_pct 
+-----------+-------+------------------------
+ 1. <10%   |  8052 |                   11.0
+ 2. 10-20% |  9555 |                   16.8
+ 3. 20-30% |  3167 |                   24.2
+ 4. 30%+   |   949 |                   27.9
+(4 rows)
+
+ age_group | patients | avg_stays 
+-----------+----------+-----------
+ 60+       |     1622 |       4.2
+ 31-45     |      488 |       3.5
+ 46-60     |      456 |       3.5
+ 18-30     |      367 |       3.5
+ 0-17      |      161 |       3.3
+(5 rows)
+
+ lead_time_band | appointments | noshow_pct 
+----------------+--------------+------------
+ 1. Same day    |         6057 |        5.3
+ 2. 1-7 days    |        11207 |       12.8
+ 3. 8-14 days   |        10286 |       14.1
+ 4. 15-30 days  |        13206 |       16.1
+ 5. 31-60 days  |         6357 |       20.8
+ 6. 60+ days    |          887 |       22.3
+(6 rows)
+
+ sms_reminder | appointments | noshow_pct 
+--------------+--------------+------------
+ No           |        13550 |       18.5
+ Yes          |        33481 |       12.6
+(2 rows)
+
+  weekday  | age_group | noshow_pct 
+-----------+-----------+------------
+ Friday    | 18-30     |       22.6
+ Monday    | 18-30     |       21.3
+ Tuesday   | 18-30     |       20.8
+ Wednesday | 18-30     |       19.9
+ Thursday  | 18-30     |       19.6
+ Friday    | 31-45     |       17.0
+ Monday    | 31-45     |       16.8
+ Thursday  | 31-45     |       16.6
+ Wednesday | 31-45     |       15.7
+ Tuesday   | 31-45     |       15.0
+(10 rows)
+
+    department    | admissions | appointments | readmission_pct | noshow_pct 
+------------------+------------+--------------+-----------------+------------
+ General Medicine |       5589 |        15823 |            15.2 |       14.9
+ Cardiology       |       5084 |         9154 |            19.9 |       14.7
+ Orthopedics      |       3652 |         8210 |            11.6 |       14.7
+ Neurology        |       3049 |         4900 |            18.0 |       15.0
+ Oncology         |       2778 |         3272 |            19.9 |       14.4
+ Pediatrics       |       1571 |         6641 |             8.4 |       11.0
+(6 rows)
+

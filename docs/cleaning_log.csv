@@ -1,0 +1,23 @@
+table,step,rows_affected,action
+patients,Standardise labels,385,Insurance type in capitals -> title case
+patients,Duplicates,60,Removed exact duplicate patient rows
+admissions,1. Duplicates,261,Removed exact duplicate rows (double export)
+admissions,2. Standardise labels,1518,"Unified department spellings (Cardio, Gen Med, Paediatrics…)"
+admissions,2. Standardise labels,1354,Gender M/F/lower case -> Male/Female
+admissions,2. Standardise labels,116,Blank gender -> 'Unknown' (not guessed)
+admissions,3. Fix types,3887,admit_datetime: US date format MM/DD/YYYY converted
+admissions,3. Fix types,3887,discharge_datetime: US date format MM/DD/YYYY converted
+admissions,4. Invalid values,80,Discharge before admission: dates were swapped -> corrected
+admissions,4. Invalid values,80,Length of stay recalculated from the corrected dates
+admissions,3. Fix types,2180,"Treatment cost stored as text ($12,345.00) -> number"
+admissions,4. Invalid values,125,Readmission risk entered as a percentage (34) -> 0.34
+admissions,5. Missing values,190,Missing age group filled from the patient master table
+admissions,4. Invalid values,30,Pediatrics stay coded as 60+ -> age taken from patient master
+admissions,5. Missing values,355,Missing cost filled with the median of the same department + treatment (flagged cost_imputed)
+admissions,5. Missing values,193,Missing recovery score filled with the department median
+admissions,6. Derived fields,3376,readmitted_30d: patient returned within 30 days of discharge
+admissions,6. Derived fields,1195,"Discharged in the last 30 days of data: readmission not yet observable -> left blank, excluded from the rate"
+appointments,1. Duplicates,480,Removed exact duplicate appointment rows
+appointments,2. Standardise labels,3616,"Status variants (No Show, NS, no-show, attended) unified"
+appointments,5. Missing values,969,Blank SMS reminder flag -> 'Unknown' (not counted as yes or no)
+appointments,4. Invalid values,170,Negative lead time (sign error) -> recalculated from booked date

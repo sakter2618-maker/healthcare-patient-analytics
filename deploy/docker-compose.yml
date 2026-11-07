@@ -1,0 +1,20 @@
+# Runs on the VPS behind the existing Traefik:  https://salmaakter.me/healthcare
+name: healthcare-patient-analytics
+
+services:
+  dashboard:
+    build: ..
+    image: healthcare-patient-analytics:latest
+    container_name: healthcare-dashboard
+    restart: unless-stopped
+    command: >
+      streamlit run streamlit_app.py --server.port=8501 --server.address=0.0.0.0
+      --server.baseUrlPath=healthcare
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.healthcare.rule=Host(`salmaakter.me`) && PathPrefix(`/healthcare`)
+      - traefik.http.routers.healthcare.entrypoints=websecure
+      - traefik.http.routers.healthcare.tls.certresolver=letsencrypt
+      - traefik.http.routers.healthcare.priority=100
+      - traefik.http.services.healthcare.loadbalancer.server.port=8501
+    mem_limit: 1g

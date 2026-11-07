@@ -1,0 +1,6 @@
+hospital_id,hospital_name,region,beds,hospital_type
+H01,Northgate Medical Center,North,420,Teaching
+H02,Lakeside General Hospital,East,310,General
+H03,Riverside Community Hospital,South,220,Community
+H04,Westbrook Specialty Hospital,West,260,Specialty
+H05,Eastview Regional Hospital,East,180,Regional
