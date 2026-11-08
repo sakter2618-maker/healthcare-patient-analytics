@@ -256,8 +256,9 @@ def business_answers(d: dict | None = None) -> list[dict]:
                 f"${cost.avg_cost.iloc[-1]:,.0f}).") if len(cost) > 1 else "Only one department is selected in the filters."),
         dict(q="What is the 30-day readmission rate?",
              a=f"{r['rate']:.1f}% ({r['readmissions']:,} stays)",
-             d=f"High-risk patients (score ≥ 25%) come back {r['rate_high_risk']:.1f}% of the time vs "
-               f"{r['rate_low_risk']:.1f}% for the rest."),
+             d=(f"High-risk patients (score ≥ 25%) come back {r['rate_high_risk']:.1f}% of the time vs "
+                f"{r['rate_low_risk']:.1f}% for the rest." if r["rate_high_risk"] == r["rate_high_risk"]
+                else "No stay in this selection is scored high-risk (≥ 25%).")),
         dict(q="What is the appointment no-show rate?",
              a=f"{n['rate']:.1f}% ({n['no_shows']:,} missed visits)",
              d=f"{n['sms_no']:.1f}% without an SMS reminder vs {n['sms_yes']:.1f}% with one; "
