@@ -12,20 +12,24 @@ if ui.empty_guard(a, p):
 
 hp = m.hospital_performance(a, p, h)
 best, worst = hp.iloc[0], hp.iloc[-1]
-c1, c2, c3 = st.columns(3)
-with c1:
-    ui.insight("Best performer", best.hospital_name,
-               f"Score {best.performance_score:.0f}: {best.readmission_rate:.1f}% readmitted, "
-               f"{best.avg_los:.1f}-day average stay, recovery {best.avg_recovery:.1f}/100.", ui.GOOD)
-with c2:
-    ui.insight("Needs attention", worst.hospital_name,
-               f"{worst.readmission_rate:.1f}% readmitted ({worst.readmission_rate - best.readmission_rate:+.1f} pts vs best) "
-               f"and stays {worst.avg_los - best.avg_los:+.1f} days longer on average.", ui.BAD)
-with c3:
-    extra_days = (worst.avg_los - hp.avg_los.median()) * worst.admissions
-    ui.insight("What the gap costs", f"≈ {extra_days:,.0f} extra bed-days",
-               f"If {worst.hospital_name.split()[0]} matched the median stay it would free about "
-               f"{extra_days / 365:,.0f} beds a year.", ui.ORANGE)
+if len(hp) < 2:
+    ui.callout(f"Only <b>{best.hospital_name}</b> is selected. Clear the Hospital filter (or pick two or more) "
+               "to compare hospitals; the table below shows this hospital's numbers.")
+if len(hp) > 1:
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        ui.insight("Best performer", best.hospital_name,
+                   f"Score {best.performance_score:.0f}: {best.readmission_rate:.1f}% readmitted, "
+                   f"{best.avg_los:.1f}-day average stay, recovery {best.avg_recovery:.1f}/100.", ui.GOOD)
+    with c2:
+        ui.insight("Needs attention", worst.hospital_name,
+                   f"{worst.readmission_rate:.1f}% readmitted ({worst.readmission_rate - best.readmission_rate:+.1f} pts vs best) "
+                   f"and stays {worst.avg_los - best.avg_los:+.1f} days longer on average.", ui.BAD)
+    with c3:
+        extra_days = max((worst.avg_los - hp.avg_los.median()) * worst.admissions, 0)
+        ui.insight("What the gap costs", f"≈ {extra_days:,.0f} extra bed-days",
+                   f"If {worst.hospital_name.split()[0]} matched the median stay it would free about "
+                   f"{extra_days / 365:,.1f} beds a year.", ui.ORANGE)
 
 ui.section("Scorecard", "Performance score: 100 = best of the five, 50 = weakest (readmissions 35%, stay 25%, "
            "recovery 25%, no-shows 15%).")

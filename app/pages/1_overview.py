@@ -65,7 +65,7 @@ with c2:
                            hovertemplate="Booked %{x} ahead: %{y:.1f}% no-show<extra></extra>"))
     ui.show(ui.style(fig, 320, False, "No-show rate by how far ahead the visit was booked", "Q5"))
 
-ui.callout("<b>Headline:</b> Riverside Community Hospital has the highest readmission rate and the longest stays; "
+ui.callout("<b>Headline (full dataset, all hospitals):</b> Riverside Community Hospital has the highest readmission rate and the longest stays; "
            "patients 60+ account for the largest share of services; and appointments booked more than a month "
            "ahead are missed about four times as often as same-day bookings. See the Insights Report for actions.")
 ui.footer()

@@ -225,6 +225,13 @@ def appointments_monthly(p: pd.DataFrame) -> pd.DataFrame:
     return g.drop(columns="appointment_datetime")
 
 
+def _runners_up(dep: pd.DataFrame) -> str:
+    rest = [f"{r.department} ({r.admissions:,})" for r in dep.iloc[1:3].itertuples()]
+    if not rest:
+        return "Only one department is selected in the filters."
+    return "Then " + " and ".join(rest) + "."
+
+
 # --------------------------------------------------------------------------- answers
 def business_answers(d: dict | None = None) -> list[dict]:
     d = d or load()
@@ -238,15 +245,15 @@ def business_answers(d: dict | None = None) -> list[dict]:
     return [
         dict(q="Which department has the most admissions?",
              a=f"{dep.department[0]}: {dep.admissions[0]:,} stays ({dep.share[0]:.1f}%)",
-             d=f"Then {dep.department[1]} ({dep.admissions[1]:,}) and {dep.department[2]} ({dep.admissions[2]:,})."),
+             d=_runners_up(dep)),
         dict(q="Which age group uses healthcare services the most?",
              a=f"{top_age.age_group}: {top_age.service_share:.1f}% of all services",
              d=f"{int(top_age.admissions):,} admissions and {int(top_age.appointments):,} appointments; "
                f"{top_age.admissions_per_patient:.2f} admissions per patient."),
         dict(q="Which department has the highest average treatment cost?",
              a=f"{cost.department[0]}: ${cost.avg_cost[0]:,.0f} per stay",
-             d=f"{cost.avg_cost[0] / cost.avg_cost.iloc[-1]:.1f}× the lowest ({cost.department.iloc[-1]}, "
-               f"${cost.avg_cost.iloc[-1]:,.0f})."),
+             d=(f"{cost.avg_cost[0] / cost.avg_cost.iloc[-1]:.1f}× the lowest ({cost.department.iloc[-1]}, "
+                f"${cost.avg_cost.iloc[-1]:,.0f}).") if len(cost) > 1 else "Only one department is selected in the filters."),
         dict(q="What is the 30-day readmission rate?",
              a=f"{r['rate']:.1f}% ({r['readmissions']:,} stays)",
              d=f"High-risk patients (score ≥ 25%) come back {r['rate_high_risk']:.1f}% of the time vs "

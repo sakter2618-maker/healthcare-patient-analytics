@@ -1,3 +1,4 @@
+import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
@@ -15,7 +16,7 @@ top = demo.sort_values("services", ascending=False).iloc[0]
 ui.kpi_row([
     ui.kpi("Unique patients", f"{a.patient_key.nunique():,}", "with at least one stay", ui.TEAL, "👥"),
     ui.kpi("Largest age group", str(top.age_group), f"{top.service_share:.1f}% of all services", ui.PINK, "🧓"),
-    ui.kpi("Stays per patient (60+)", f"{demo.set_index('age_group').loc['60+', 'admissions_per_patient']:.2f}",
+    ui.kpi("Stays per patient (60+)", (f"{v:.2f}" if pd.notna(v := demo.set_index('age_group').admissions_per_patient.get('60+')) else "—"),
            f"vs {a.groupby('patient_key').size().mean():.2f} overall", ui.ORANGE, "🛏️"),
     ui.kpi("Female share", f"{100 * (a.gender == 'Female').mean():.1f}%", "of admissions", ui.VIOLET, "⚧"),
 ])

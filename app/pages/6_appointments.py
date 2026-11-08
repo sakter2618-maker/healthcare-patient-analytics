@@ -59,6 +59,6 @@ fig = go.Figure()
 fig.add_bar(x=mo.month, y=mo.appointments, name="Appointments", marker=dict(color=ui.SOFT, cornerradius=3),
             hovertemplate="%{x|%b %Y}: %{y:,} appointments<extra></extra>")
 ui.show(ui.style(fig, 280, False, "Appointments per month"))
-ui.callout("<b>Actions:</b> send SMS reminders to every patient (today about 3 in 10 get none), add a second "
+ui.callout("<b>Actions (based on the full dataset):</b> send SMS reminders to every patient (today about 3 in 10 get none), add a second "
            "reminder for visits booked 30+ days ahead, and overbook slightly on Monday/Friday slots for 18–30 year olds.")
 ui.footer()

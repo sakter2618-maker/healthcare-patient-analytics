@@ -11,6 +11,12 @@ if ui.empty_guard(a):
     st.stop()
 
 r = m.readmission_summary(a)
+if a.readmitted_30d.isna().any():
+    n_open = int(a.readmitted_30d.isna().sum())
+    ui.callout(f"<b>{n_open:,} stay(s)</b> in this selection were discharged in the last 30 days of the data, so "
+               "we can't know yet whether they come back. They are left out of the rates (right-censoring)."
+               + (" <b>Nothing in this selection can be measured yet — widen the date range.</b>"
+                  if a.readmitted_30d.notna().sum() == 0 else ""))
 ui.kpi_row([
     ui.kpi("30-day readmission rate", f"{r['rate']:.1f}%", f"{r['readmissions']:,} stays · target ≤ 14%", ui.PINK, "🔁",
            "good" if r["rate"] <= 14 else ("warn" if r["rate"] <= 16 else "bad")),

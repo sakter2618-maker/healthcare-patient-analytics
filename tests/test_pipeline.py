@@ -53,3 +53,13 @@ def test_filters_shrink_data():
     assert 0 < len(one) < len(A) and set(one.hospital_name) == {"Riverside Community Hospital"}
     q = m.filt(A, start="2025-01-01", end="2025-03-31", date_col="admit_datetime")
     assert q.admit_datetime.min() >= pd.Timestamp("2025-01-01")
+
+
+def test_answers_survive_small_selections():
+    # one or two departments, one hospital, a single day: nothing may crash
+    for deps in (["Pediatrics"], ["Pediatrics", "Oncology"]):
+        a = m.filt(A, hospitals=["Eastview Regional Hospital"], departments=deps)
+        p = m.filt(P, hospitals=["Eastview Regional Hospital"], departments=deps)
+        assert len(m.business_answers({"admissions": a, "appointments": p})) == 5
+    day = m.filt(A, start="2025-12-31", end="2025-12-31", date_col="admit_datetime")
+    m.business_answers({"admissions": day, "appointments": P.head(50)})

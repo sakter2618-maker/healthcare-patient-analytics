@@ -106,7 +106,18 @@ def hero(title, subtitle, tags=()):
     st.markdown(f'<div class="hero">{t}<h1>{title}</h1><p>{subtitle}</p></div>', unsafe_allow_html=True)
 
 
+_NAN = __import__("re").compile(r"[+-]?\bnan\b(?:%| pts)?")
+
+
+def na(text) -> str:
+    """Show 'n/a' instead of 'nan' when a filter leaves too few records for a rate."""
+    return _NAN.sub("n/a", str(text))
+
+
 def kpi(label, value, note="", accent=TEAL, icon="", status=None):
+    if _NAN.search(str(value)):
+        value, status = "n/a", None
+    value, note = na(value), na(note)
     pill = ""
     if status:
         pill = f'<span class="pill {status}">{ {"good": "✓ Good", "warn": "! Watch", "bad": "✕ Act"}[status] }</span>'
@@ -125,11 +136,13 @@ def section(title, sub=""):
 
 
 def insight(q, a, d, accent=TEAL):
+    a, d = na(a), na(d)
     st.markdown(f'<div class="insight" style="--accent:{accent}"><div class="q">{q}</div><div class="a">{a}</div>'
                 f'<div class="d">{d}</div></div>', unsafe_allow_html=True)
 
 
 def callout(html):
+    html = na(html)
     st.markdown(f'<div class="callout">{html}</div>', unsafe_allow_html=True)
 
 
@@ -157,11 +170,20 @@ def style(fig: go.Figure, height=360, legend=True, title="", sub=""):
     return fig
 
 
+def _blank_nan(v):
+    return "" if isinstance(v, str) and "nan" in v else v
+
+
 def show(fig):
     meta = fig.layout.meta if isinstance(fig.layout.meta, dict) else {}
     if meta.get("ui_title"):
         sub = f' <span>· {meta["ui_sub"]}</span>' if meta.get("ui_sub") else ""
         st.markdown(f'<div class="chart-title">{meta["ui_title"]}{sub}</div>', unsafe_allow_html=True)
+    for tr in fig.data:                      # tiny filter selections can leave a rate undefined
+        t = getattr(tr, "text", None)
+        if t is not None and not isinstance(t, str):
+            tr.text = [[_blank_nan(v) for v in row] if isinstance(row, (list, tuple)) else _blank_nan(row)
+                       for row in t]
     st.plotly_chart(fig, width="stretch", config={"displayModeBar": False, "responsive": True})
 
 
